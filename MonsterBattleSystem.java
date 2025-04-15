@@ -91,7 +91,7 @@ public class MonsterBattleSystem {
         return null;
     }
 
-    private Player findPlayerById(String playerId) {
+    public Player findPlayerById(String playerId) {  // Changed to public
         for (int i = 0; i < playerCount; i++) {
             if (players[i].getPlayerId().equals(playerId)) return players[i];
         }
