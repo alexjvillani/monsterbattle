@@ -1,5 +1,2 @@
 P100; Blaze; FD001; 1; 100; 50
 P200; Sprout; GD003; 1; 90; 55
-P300; Frost; IC005; 1; 105; 48
-P400; Sandie; SD004; 1; 95; 60
-P500; Splash; WD002; 1; 110; 45

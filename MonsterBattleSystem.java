@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.Scanner;
+
 public class MonsterBattleSystem {
     private MonsterSpecies[] speciesList;
     private Player[] players;
@@ -103,5 +106,98 @@ public class MonsterBattleSystem {
             sb.append(players[i].toString()).append("\n");
         }
         return sb.toString();
+    }
+
+    public void saveData() throws Exception {
+        saveSpeciesData("MBQ-Species.txt");
+        savePlayersData("MBQ-Players.txt");
+        saveMonstersData("MBQ-Monsters.txt");
+    }
+
+    private void saveSpeciesData(String filename) throws Exception {
+        try (PrintWriter writer = new PrintWriter(new File(filename))) {
+            for (int i = 0; i < speciesCount; i++) {
+                MonsterSpecies species = speciesList[i];
+                writer.println(species.getCode() + "; " + species.getName() + "; " + species.getType() + "; " + species.getBaseHP() + "; " + species.getBaseAttack());
+            }
+        }
+    }
+
+    private void savePlayersData(String filename) throws Exception {
+        try (PrintWriter writer = new PrintWriter(new File(filename))) {
+            for (int i = 0; i < playerCount; i++) {
+                Player player = players[i];
+                writer.println(player.getPlayerId() + "; " + player.getName());
+            }
+        }
+    }
+
+    private void saveMonstersData(String filename) throws Exception {
+        try (PrintWriter writer = new PrintWriter(new File(filename))) {
+            for (int i = 0; i < playerCount; i++) {
+                Player player = players[i];
+                Monster[] team = player.getTeam();  // Use the getter method
+                for (int j = 0; j < 5; j++) {
+                    //loop through all possible monster slots
+                    if (team[j] != null) {
+                        Monster monster = team[j];
+                        writer.println(player.getPlayerId() + "; " + monster.getName() + "; " + monster.getSpecies().getCode() + "; " + monster.getLevel() + "; " + monster.getHp() + "; " + monster.getAttackPower());
+                    }
+                }
+            }
+        }
+    }
+
+    public void loadData() throws Exception {
+        loadSpeciesData("MBQ-Species.txt");
+        loadPlayersData("MBQ-Players.txt");
+        loadMonstersData("MBQ-Monsters.txt");
+    }
+
+    private void loadSpeciesData(String filename) throws Exception {
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split("; ");
+                if (parts.length == 5) {
+                    addSpecies(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
+                }
+            }
+        }
+    }
+
+    private void loadPlayersData(String filename) throws Exception {
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split("; ");
+                if (parts.length == 2) {
+                    addPlayer(parts[0], parts[1]);
+                }
+            }
+        }
+    }
+
+    private void loadMonstersData(String filename) throws Exception {
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split("; ");
+                if (parts.length == 6) {
+                    String playerId = parts[0];
+                    String monsterNickname = parts[1];
+                    String speciesCode = parts[2];
+                    assignMonster(playerId, monsterNickname, speciesCode);
+                    Player player = findPlayerById(playerId);
+                    Monster monster = null;
+                    for (int i = 0; i < 5; i++) {
+                        if (player.getTeam()[i] != null && player.getTeam()[i].getName().equals(monsterNickname)) {  // Use the getter
+                            monster = player.getTeam()[i];  // Use the getter
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

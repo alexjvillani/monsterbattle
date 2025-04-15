@@ -43,6 +43,10 @@ public class Player {
         return null;
     }
 
+    public Monster[] getTeam() {
+        return team;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

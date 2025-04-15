@@ -1,5 +1,3 @@
 FD001; FireDragon; Fire; 100; 50
 WD002; AquaSerpent; Water; 110; 45
 GD003; LeafBeast; Grass; 90; 55
-SD004; SandLurker; Grass; 95; 60
-IC005; IcePhoenix; Water; 105; 48
