@@ -40,6 +40,9 @@ public class MonsterBattleSystem {
             case "Grass":
                 monster = new GrassMonster(nickname, species);
                 break;
+            case "Metal":
+                monster = new QuicksilverElemental(nickname, species);
+                break;
             default:
                 return;
         }
